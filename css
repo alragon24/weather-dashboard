@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <title>Weather Dashboard</title>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Weather Dashboard</h1>
+
+    <div class="cities">
+
+      <button class="city-button" data-city="New York">New York</button>
+
+      <button class="city-button" data-city="Los Angeles">Los Angeles</button>
+
+      <button class="city-button" data-city="London">London</button>
+
+      <button class="city-button" data-city="Tokyo">Tokyo</button>
+
+      <button class="city-button" data-city="Sydney">Sydney</button>
+
+    </div>
+
+    <div class="weather-info">
+
+      <h2 id="city-name"></h2>
+
+      <p id="temperature"></p>
+
+      <p id="description"></p>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
+
+
+
+CSS 
+
+
+
+body {
+
+  font-family: Arial, sans-serif;
+
+  background-color: #f4f4f4;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+
+
+.container {
+
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  padding: 20px;
+
+  text-align: center;
+
+  background-color: white;
+
+  border-radius: 5px;
+
+  box-shadow: 0 0 10px ba(0, 0, 0, 0.1);
+
+}
+
+
+
+.cities {
+
+  margin-bottom: 20px;
+
+}
+
+
+
+.city-button {
+
+  padding: 10px 20px;
+
+  background-color: #007BFF;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  margin: 5px;
+
+}
+
+
+
+.weather-info {
+
+  display: none;
+
+}
+
+
+
+#city-name {
+
+  font-size: 24px;
+
+  margin-bottom: 5px;
+
+}
+
+
+
+#temperature {
+
+  font-size: 18px;
+
+  margin-bottom: 10px;
+
+}
+
+
+
+#description {
+
+  font-size: 16px;
+
+  color: #888;
+
+}
+
+
+
+JAVASCRIPT 
+
+
+
+const cityButtons = document.querySelectorAll(".city-button");
+
+const cityNameElement”document.getElementById("city-name");
+
+const temperatureElement = document.getElementById("temperature");
+
+const descriptionElement = document.getElementById("description");
+
+const weatherInfoElement = document.querySelector(".weather-info");
+
+
+
+
+cityButtons.forEach(button => {
+
+  button.addEventListener(“click", () => {
+
+    const city = button.getAttribute("data-city");
+
+    getWeather(city);
+
+  });
+
+});
+
+
+
+function getWeather(city) {
+
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+
+
+  fetch(apiUrl)
+
+    .then(response => response.json())
+
+    .then(data => {
+
+      cityNameElement.textContent = city;
+
+      temperatureElement.textContent = `${data.main.temp}°C`;
+
+      descriptionElement.textContent = data.weather[0].description;
+
+      weatherInfoElement.style.display = "block";
+
+    })
+
+    .catch(error => {
+
+      console.error("Error fetching weather data:", error);
+
+    });
+
+}
+
